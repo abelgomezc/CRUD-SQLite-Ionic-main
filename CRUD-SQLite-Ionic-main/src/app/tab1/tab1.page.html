@@ -1,0 +1,177 @@
+<ion-header mode="ios" [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center" style="font-size: large">
+      Inicio
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content >
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Inicio</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content> -->
+
+<ion-content [fullscreen]="true" class="scale-in-center">
+  <ion-modal [isOpen]="isModalOpen" mode="ios">
+    <ng-template>
+      <ion-content>
+        <ion-list mode="ios">
+          <ion-header>
+            <ion-toolbar color="dark">
+              <ion-title>Estudiantes</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="setOpen(false)"
+                  ><ion-icon name="close-circle-outline"></ion-icon
+                ></ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <h1 class="ion-text-center">Complete el formulario</h1>
+          <ion-item>
+            <ion-label
+              position="floating"
+              style="margin-bottom: 10px; margin-top: 10px"
+              >Cédula</ion-label
+            >
+            <ion-input
+              [(ngModel)]="cedula"
+              placeholder="DNI o carnet estudiantil"
+              [disabled]="editMode"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" style="margin-bottom: 10px"
+              >Nombre</ion-label
+            >
+            <ion-input
+              [(ngModel)]="nombre"
+              placeholder="Nombre completo"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" style="margin-bottom: 10px"
+              >Carrera</ion-label
+            >
+            <ion-input
+              [(ngModel)]="carrera"
+              placeholder="Carrera cursando"
+            ></ion-input>
+          </ion-item>
+          <ion-item style="margin-bottom: 10px">
+            <ion-label position="floating">Año cursando</ion-label>
+            <ion-input
+              [(ngModel)]="cursado"
+              placeholder="Años totales en la carrera"
+            ></ion-input>
+            <!-- <ion-datetime presentation="month-year"></ion-datetime> -->
+          </ion-item>
+
+          <ion-button
+            style="margin-top: 15px"
+            expand="block"
+            (click)="addEstudiante()"
+          >
+            {{ editMode ? 'Editar' : 'Agregar' }}
+          </ion-button>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-list>
+    <ion-img
+      src="https://cdni.iconscout.com/illustration/premium/thumb/student-studying-in-classroom-4036137-3345618.png"
+      alt="The Wisconsin State Capitol building in Madison, WI at night"
+    ></ion-img>
+    <ion-searchbar
+      [(ngModel)]="cedula"
+      (input)="searchEstudiante(cedula)"
+      placeholder="Buscar por cédula..."
+      show-clear-button="never"
+    ></ion-searchbar>
+
+    <h1
+      class="ion-text-center ion-text-capitalize"
+      style="margin-top: 20px; margin-bottom: 20px"
+    >
+      Listado de estudiantes
+    </h1>
+    <ion-item-sliding *ngFor="let estudiante of estudiantes" mode="ios">
+      <ion-item class="listado" style="margin-top: 10px; margin-bottom: 10px">
+        <ion-label>
+          <div style="display: flex; align-items: center">
+            <ion-icon
+              name="card"
+              color="secondary"
+              style="margin-right: 5px"
+            ></ion-icon>
+            <h2 style="color: var(--ion-color-danger-contrast)">
+              Cédula: {{ estudiante.cedula }}
+            </h2>
+          </div>
+
+          <div style="display: flex; align-items: center">
+            <ion-icon
+              name="text"
+              color="secondary"
+              style="margin-right: 5px"
+            ></ion-icon>
+            <h2 style="color: var(--ion-color-danger-contrast)">
+              Nombre: {{ estudiante.name }}
+            </h2>
+          </div>
+
+          <div style="display: flex; align-items: center">
+            <ion-icon
+              name="school"
+              color="secondary"
+              style="margin-right: 5px"
+            ></ion-icon>
+            <h2 style="color: var(--ion-color-danger-contrast)">
+              Carrera: {{ estudiante.carrera }}
+            </h2>
+          </div>
+
+          <div style="display: flex; align-items: center">
+            <ion-icon
+              name="calendar"
+              color="secondary"
+              style="margin-right: 5px"
+            ></ion-icon>
+            <h2 style="color: var(--ion-color-danger-contrast)">
+              Año cursado: {{ estudiante.cursado }}
+            </h2>
+          </div>
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options>
+        <ion-item-option
+          color="secondary"
+          (click)="editEstudiante(estudiante)"
+          (click)="setOpen(true)"
+          ><ion-icon name="create" style="height: 30px; width: 30px"></ion-icon
+        ></ion-item-option>
+        <ion-item-option
+          color="danger"
+          (click)="deleteEstudiante(estudiante.id)"
+          ><ion-icon name="trash" style="height: 30px; width: 30px"></ion-icon
+        ></ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    style="margin: 16px 20px"
+  >
+    <ion-fab-button (click)="setOpen(true)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
